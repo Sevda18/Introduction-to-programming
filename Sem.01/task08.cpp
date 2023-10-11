@@ -1,0 +1,11 @@
+#include <iostream>
+
+int main()
+{
+	int n1, n2;
+	std::cin >> n1>>n2;
+
+	bool isFirstBigger = n1 > n2;
+
+	std::cout << n1 * isFirstBigger + n2 * !isFirstBigger;
+}
