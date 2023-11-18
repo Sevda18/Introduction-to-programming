@@ -1,0 +1,77 @@
+#include <iostream>
+
+bool isContainDigitOneTime(int num, int target)
+{
+    int count = 0;
+    while (num!=0)
+    {
+        int lastDigit = num % 10;
+        if (lastDigit == target)
+        {
+            count++;
+        }
+        num /= 10;
+    }
+    
+    if (count == 1)
+    {
+        return true;
+    }
+}
+
+bool hasUniqueDigits(int num)
+{
+    while (num != 0)
+    {
+        int lastDigit = num % 10;
+        if (!isContainDigitOneTime(num, lastDigit))
+        {
+            return false;
+        }
+        num /= 10;
+    }
+    return true;
+}
+
+int powerOfTen(int countDigit)
+{
+    int result = 1;
+    for (int i = 2; i < countDigit; i++)
+    {
+        result *= 10;
+    }
+
+    return result;
+}
+
+void allPermutationFunc(int arr[], int size, int countDigit)
+{
+    int start = powerOfTen(countDigit);
+    int end = start * 10*10;
+    int j = 0;
+    for (int i = start; i < end; i++)
+    {
+        if (hasUniqueDigits(i))
+        {
+            arr[j] = i;
+            j++;
+        }
+    }
+}
+
+void printArr(int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        std::cout << arr[i] << " ";
+    }
+}
+
+int main()
+{
+    constexpr int SIZE = 10*9*8*10;
+    int arr[SIZE];
+    int countDigit = 3;
+    allPermutationFunc(arr, SIZE, countDigit);
+    printArr(arr, SIZE);
+}
