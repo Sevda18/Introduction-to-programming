@@ -1,0 +1,146 @@
+#include <iostream>
+
+void setAllToData(int arr[], int size, int data)
+{
+    for (int i = 0; i < size; i++)
+    {
+        arr[i] = data;
+    }
+}
+
+bool isThereDigit(int num, int target)
+{
+    while (num != 0)
+    {
+        int lastDigit = num % 10;
+        if (lastDigit == target)
+        {
+            return true;
+        }
+        num /= 10;
+    }
+    return false;
+}
+
+int isThereNum(int num1, int num2)
+{
+    int count = 0;
+    while (num1 != 0)
+    {
+        int lastDigit = num1 % 10;
+        if (isThereDigit(num2, lastDigit))
+        {
+            count++;
+        }
+        num1 /= 10;
+    }
+
+    return count;
+}
+
+void isThereCowsAndBulls(int num1, int arr[], int arr2[], int size, int cows, int bulls)
+{
+    int sumCowsAndBulls = cows + bulls;
+    int j = 0;
+    for (int i = 0; i < size; i++)
+    {
+        if (isThereNum(num1, arr[i]) == sumCowsAndBulls)
+        {
+            arr2[j] = arr[i];
+            j++;
+        }
+    }
+}
+
+int powerOfTen(int countDigit)
+{
+    int result = 1;
+    for (int i = 2; i < countDigit; i++)
+    {
+        result *= 10;
+    }
+
+    return result;
+}
+
+void allPermutationFunc(int arr[], int size)
+{
+    int num = 0;
+    int index = 0;
+    for (int i = 0; i < 10; ++i) {
+        for (int j = 0; j < 10; ++j) {
+            for (int k = 0; k < 10; ++k) {
+                if (i != k && i != j && j != k)
+                {
+                    int num = i * 100 + j * 10 + k * 1;
+                    arr[index] = num;
+                    index++;
+                }
+            }
+        }
+    }
+}
+
+
+void printArr(int arr[], int size)
+{
+    for (int i = 0; i < size; i++)
+    {
+        if (arr[i] == -1)
+        {
+            break;
+        }
+        std::cout << arr[i] << " ";
+    }
+}
+
+int countBullsNumber(int num, int num2)
+{
+   int countBulls = 0;
+    while (num != 0)
+    {
+        int lastDigit = num % 10;
+        int lastDigit2 = num2 % 10;
+        if (lastDigit == lastDigit2)
+        {
+            countBulls++;
+        }
+        num /= 10;
+        num2 /= 10;
+    }
+
+    return countBulls;
+}
+
+void findBulls(int num, int arr[], int arr2[], int size, int bulls)
+{
+    int j = 0;
+    for (int i = 0; i < size; i++)
+    {
+        if (countBullsNumber(num, arr[i]) == bulls)
+        {
+            arr2[j] = arr[i];
+            j++;
+        }
+    }
+}
+
+
+
+int main()
+{
+    int countDigit = 6;
+    constexpr int SIZE = 10 * 9 * 8;
+    int num, bulls, cows;
+    std::cin >> num >> bulls >> cows;
+    int sumCowsAndBulls[SIZE];
+    int numbersWithBullsAndCows[SIZE];
+    setAllToData(sumCowsAndBulls, SIZE, -1);
+    setAllToData(numbersWithBullsAndCows, SIZE, -1);
+    int allPermutation[SIZE];
+    allPermutationFunc(allPermutation, SIZE);
+    isThereCowsAndBulls(num, allPermutation, sumCowsAndBulls, SIZE, cows, bulls);
+    std::cout << std::endl << "*****" << std::endl;
+    findBulls(num, sumCowsAndBulls, numbersWithBullsAndCows, SIZE, bulls);
+    printArr(numbersWithBullsAndCows, SIZE);
+}
